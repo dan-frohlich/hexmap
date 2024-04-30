@@ -29,6 +29,7 @@ func (p Point) Plus(q Point) Point {
 type Hexagon struct {
 	Center Point
 	Radius float64
+	ID     string
 }
 
 const (
@@ -64,6 +65,12 @@ func (hex Hexagon) CopyTopRight() Hexagon {
 func (hex Hexagon) CopyBottomRight() Hexagon {
 	c2 := hex.d().Sub(hex.Center).Plus(hex.c())
 	return Hexagon{Radius: hex.Radius, Center: c2}
+}
+
+func (hex Hexagon) BoundingBox() (a, b Point) {
+	a = Point{X: (-1 * int(hex.Radius)) + hex.Center.X, Y: -1*int(hex.Radius*sin60) + hex.Center.Y}
+	b = Point{X: (int(hex.Radius)) + hex.Center.X, Y: int(hex.Radius*sin60) + hex.Center.Y}
+	return a, b
 }
 
 func (hex Hexagon) Vertices() []Point {
